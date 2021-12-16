@@ -18,7 +18,7 @@ Twitter:
 */
 
 contract helloWorld {
- function renderHelloWorld () public pure returns (string) {
-   return 'helloWorld';
- }
+    function renderHelloWorld() public pure returns (string) {
+        return "helloWorld";
+    }
 }
