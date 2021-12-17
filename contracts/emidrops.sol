@@ -2,20 +2,20 @@
 
 pragma solidity ^0.8.4;
 
-import "hardhat/console.sol";
+//import "hardhat/console.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
-contract emidrops is ReentrancyGuardUpgradeable, OwnableUpgradeable {
+contract EmiDrops is ReentrancyGuardUpgradeable, OwnableUpgradeable {
     using AddressUpgradeable for address payable;
 
     // whole available ETH fund for drops
     uint256 public dropFund;
 
     // operator - activated
-    mapping(address => bool) operators;
+    mapping(address => bool) public operators;
 
     event Deposited(uint256 amount);
     event Withdrawn(address beneficiary, uint256 amount);
@@ -36,7 +36,7 @@ contract emidrops is ReentrancyGuardUpgradeable, OwnableUpgradeable {
      * @dev Stores the amount for drops
      */
     function deposit() public payable onlyOwner {
-        require(msg.value > 0);
+        require(msg.value > 0, "must send value");
         dropFund += msg.value;
         emit Deposited(msg.value);
     }
@@ -75,8 +75,8 @@ contract emidrops is ReentrancyGuardUpgradeable, OwnableUpgradeable {
         uint256[] memory amountList,
         uint256 dropAmount
     ) public {
-        require(dropAmount > 0 && dropAmount <= dropFund, "incorrect dropAmount");
         require(operators[msg.sender], "only actual operator allowed");
+        require(dropAmount > 0 && dropAmount <= dropFund, "incorrect dropAmount");
         require(adressList.length > 0, "zero list");
         require(adressList.length == amountList.length, "lists length not match");
 
@@ -87,5 +87,12 @@ contract emidrops is ReentrancyGuardUpgradeable, OwnableUpgradeable {
         }
         require(dropAmount == checkAmount, "amount not much");
         dropFund -= dropAmount;
+    }
+    /*************** External functions ************************************/
+    /**
+     * default payment receive, not supported paramters, so call deposite with eth value
+     */
+    receive() external payable {
+        deposit();
     }
 }

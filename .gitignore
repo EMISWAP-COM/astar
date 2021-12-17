@@ -9,3 +9,7 @@ cache
 artifacts
 
 *.lock
+
+\.openzeppelin/
+
+\.vscode/

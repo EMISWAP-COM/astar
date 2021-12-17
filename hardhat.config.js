@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+require('@openzeppelin/hardhat-upgrades');
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
 require("hardhat-gas-reporter");
@@ -46,6 +47,12 @@ module.exports = {
 	},
 
   networks: {
+    hardhat: {
+      chainId: 31337,
+      accounts: {
+        count: 1000
+      }
+    },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:
@@ -56,6 +63,7 @@ module.exports = {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
   },
+  defaultNetwork: "hardhat",
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },

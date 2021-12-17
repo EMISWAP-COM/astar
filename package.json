@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@openzeppelin/contracts-upgradeable": "^4.4.1",
+    "@openzeppelin/hardhat-upgrades": "^1.12.0",
     "hardhat": "^2.8.0"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "prettier-test": "npx prettier --write test --print-width 120 --tab-width 2",
     "prettier-scripts": "npx prettier --write scripts --print-width 120 --tab-width 2",
     "prettier-utils": "npx prettier --write utils --print-width 120 --tab-width 2",
-    "prettier-sol": "prettier --write \"contracts/**/*.sol\" --print-width 120 --tab-width 4"
+    "prettier-sol": "prettier --write \"contracts/**/*.sol\" --print-width 120 --tab-width 4",
+    "contract-flatten": "npx hardhat flatten contracts/emidrops.sol > flat/emidrops.flat.sol"
   }
 }
